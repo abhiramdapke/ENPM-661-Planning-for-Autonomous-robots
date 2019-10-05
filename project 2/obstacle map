@@ -1,0 +1,50 @@
+#author: Abhiram Dapke
+#planning project 2
+
+import numpy as np
+import cv2
+def x(x_world,resolution):
+    x_image=int(x_world*resolution)
+    return x_image
+    
+def y(y_world, resolution):
+    y_image=int((150-y_world)*resolution)
+    return y_image
+
+  
+def create_map(resolution):
+    mag=1/resolution
+    r=int(mag*150)
+    s=int(mag*250)
+    array=np.ones([r,s])
+    
+    array=cv2.circle(array, (int(x(190,mag)),int(y(130,mag))), int(mag*15), (0, 0, 0), -1)
+    array=cv2.ellipse(array,(int(x(140,mag)),int(y(120,mag))),(int(mag*15),int(mag*6)),0,0,360,0,-1)
+    array=cv2.rectangle(array,(int(x(50,mag)),int(y(112.5,mag))),(int(x(100,mag)),int(y(67.5,mag))),(0,0,0),-1)
+    pts = np.array([[x(125,mag),y(56,mag)],[x(150,mag),y(15,mag)],[x(173,mag),y(15,mag)],[x(193,mag),y(52,mag)],[x(170,mag),y(90,mag)],[x(163,mag),y(52,mag)]], np.int32)
+    pts = pts.reshape((-1,1,2))
+    array=cv2.fillPoly(array,pts =np.int32([pts]),color=(0,0,0))
+    
+   
+    
+    with open('path_dij.txt') as f:
+        path = [tuple(map(int, i.split('\t'))) for i in f]
+    #print(path)
+    
+    for i in range(len(path)-1):
+        array=cv2.line(array,(x(path[i][0],mag),y(path[i][1],mag)),(x(path[i+1][0], mag),y(path[i+1][1], mag)),(0,0,0),1)
+        
+        cv2.imshow('Project', array)
+        cv2.namedWindow('Project',cv2.WINDOW_NORMAL)
+        cv2.resizeWindow('Project',760,460)
+        cv2.waitKey(1)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+    cv2.destroyAllWindows()
+    
+    return array
+
+create_map(1)
+
+
+
