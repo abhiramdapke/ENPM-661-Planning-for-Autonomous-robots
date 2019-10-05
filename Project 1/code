@@ -1,0 +1,273 @@
+
+# author: Abhiram Dapke
+# UID: 116237024
+# ENPM 661 Project 1 - 8 puzzle problem
+
+import math
+import numpy as np
+
+# take input from user
+x=input("comma separated numbers : ") 
+y=x.split(',')
+mat=[]
+l=[]
+for m in y:
+    mat.append(int(m))
+
+# to return a unique number for a list
+def unique_number(k): 
+    
+   number=0 
+   for i in range(0,len(k)) :
+        x=len(k)-1-i
+        n=math.pow(10,x)
+        number+= k[i]*n
+   return number
+
+solution1=[1,2,3,4,5,6,7,8,0]
+solution=unique_number(solution1)
+
+# to see if the number is in the list
+def exist_number(arr,n):
+    
+    t=False
+    for i in arr:
+        if i==n:
+            t=True
+            break
+    return t
+
+# inversion count
+def inversion_count(arr):
+    n=len(arr)
+    i_c = 0
+    for i in range(n): 
+        for j in range(i + 1, n): 
+            if (arr[i] > arr[j]): 
+                i_c += 1
+  
+    return i_c 
+
+m1=[]
+# remove zeros from the array
+for i in range(len(mat)):
+    if (mat[i] != 0):
+        m1.append(mat[i])
+        
+# Arranging for the output file      
+def arrange(mat):         
+    x=np.reshape(mat,(3,3))
+    y=x.T
+    z=np.reshape(y,(1,-1))
+    y=z[0]    
+    return y 
+
+# Even number of inversions give a soluiton 
+inv = inversion_count(m1)
+if (inv % 2 == 0):
+    
+    print("Solution to this problem Exists")
+
+    nodes=[mat]
+    
+    nums=[unique_number(mat)]
+    t=True
+    cost=0
+    node_no=1
+    n=[1,0,0]
+    node_info=[n]
+    len1=0
+    count=0
+    while t:
+        
+        len2=len(nums)
+        c=len2
+        cost=cost+1
+        print(cost)
+        
+        for pos in range(len1,len2):
+            loc=nodes[pos].index(0)
+            
+            # move up
+            if loc>2 :
+                
+                temp=nodes[pos].copy()
+                temp[loc], temp[loc - 3] = temp[loc - 3], temp[loc]  
+                s=unique_number(temp)
+                
+                if not (exist_number(nums,s)) :
+                    node_no+=1
+                    
+                    # print the node numbers
+                    count=count+1
+                    nums.append(s)
+                    n=[node_no,pos+1,cost]
+                    node_info.append(n)
+                    nodes.append(temp)
+                    
+                    
+                    
+                    if s==solution:
+                        
+                        t=False
+                        print("We got the Solution ")
+                        
+                        break
+                    
+                    # move down
+            if loc<6 :
+                
+                temp=nodes[pos].copy()
+                temp[loc], temp[loc + 3] = temp[loc + 3], temp[loc]
+                s=unique_number(temp)
+
+                
+                if not (exist_number(nums,s)) :
+                    
+                    node_no+=1
+                    count=count+1
+                    nums.append(s)
+                    n=[node_no,pos+1,cost]
+                    node_info.append(n)
+                    nodes.append(temp)
+                    
+                    if s==solution:
+                        t=False
+                        print("We got the Solution")
+                        break
+                     
+                    # move left
+            if loc % 3 != 0 :
+                
+                temp=nodes[pos].copy()
+                temp[loc], temp[loc - 1] = temp[loc - 1], temp[loc]
+                s=unique_number(temp)
+    
+                
+                if not (exist_number(nums,s)) :
+                    
+                    node_no+=1
+                    count=count+1
+                    nums.append(s)
+                    n=[node_no,pos+1,cost]
+                    node_info.append(n)
+                    nodes.append(temp)
+                    
+                    if s==solution:
+                        
+                        t=False
+                        print("We got the Solution")
+                        break
+                    
+                    # move right
+            if loc %3 != 2:                      
+                temp=nodes[pos].copy()
+                temp[loc], temp[loc + 1] = temp[loc + 1], temp[loc]
+                s=unique_number(temp)
+
+                if not (exist_number(nums,s)) :
+                    
+                    node_no+=1
+                    count=count+1
+                    nums.append(s)
+                    n=[node_no,pos+1,cost]
+                    node_info.append(n)
+                    nodes.append(temp)
+                    
+                    if s==solution:
+                        
+                        t=False
+                        print("We got the Solution")
+                        break
+    
+    
+        if count==0:
+            
+            print("We did not found the Solution")
+            t=False
+            break
+        len1=c
+        
+    # len1 = subtract count from length of nodes
+    
+        count=0
+        
+    # print node info   
+    print(node_info)
+    
+    
+    
+    # This function is used to trace back the path from node info and nodes
+    fn=node_no-1  
+                                        
+          
+    path=[]
+    # path from first to last node
+    
+    while (fn > 0):
+        
+            path.append(nodes[fn])
+            k=fn
+            fn=(node_info[k][1])-1
+    path.append(mat)
+    reverse_path=path[::-1]  
+    
+    reverse=[]
+    
+    for path in reverse_path:
+        reverse.append(arrange(path))
+    node1=[]
+    for node in nodes:
+        node1.append(arrange(node))
+        
+    # to write both nodes and node info file resp
+    
+    file=open('nodes.txt','w')  
+    
+    for node in node1:
+        file.write("\n") 
+        for i in node:
+            file.write(str(i)+" ")
+               
+        
+    file.close()
+    
+    file1=open('node_info.txt','w')   
+    for node_i in node_info:    
+        file1.write("\n")
+        for i in node_i:
+            file1.write(str(i)+ " ")    
+    file1.close()
+    
+    file2=open('node_path.txt','w')
+    
+    for path in reverse:
+        file2.write("\n")
+        for i in path:
+            
+            file2.write(str(i)+" ")    
+    file2.close()
+    # odd number of inversions doesn't give a solution.
+    
+else:
+    print("Solution doesn't Exist")
+    
+    file=open('nodes.txt','w')
+    
+    file.write("No Solution exists")
+    
+    file.close()
+    
+    file1=open('node_info.txt','w')
+    
+    file1.write("No Solution exists")
+    
+    file1.close()
+    
+    file2=open('node_path.txt','w')
+    
+    file2.write("No Solution exists")
+    
+    file2.close()
+    
+    # Program End
