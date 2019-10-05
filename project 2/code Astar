@@ -1,0 +1,140 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Apr 4 12:58:05 2019
+
+@author: Abhiram Dapke
+"""
+
+from __future__ import print_function
+import Map_of_Astar as gr
+import collections
+
+#Here r=radius, c=clearance, reso=resoluiotn
+#First, taking input from the user
+r=input("Please put a radius: ")
+c=input("Please put clearance: ")
+reso=input("Enter the resolution: ")
+r=int(r)
+c=int(c)
+reso=float(reso)
+start_point=input("Enter start_point point and separate it with spaces: ")
+start_point=start_point.split(' ')
+start_point = list(map(int, start_point))
+goal_point=input("Enter goal_point point separated by space: ")
+goal_point=goal_point.split(' ')
+goal_point = list(map(int, goal_point))
+
+start_point[0]=int(start_point[0]/reso)
+start_point[1]=int(start_point[1]/reso)
+goal_point[0]=int(goal_point[0]/reso)
+goal_point[1]=int(goal_point[1]/reso)
+
+
+while True:
+    if start_point[0]<0 or start_point[0]>int(249/reso) or start_point[1]<0 or start_point[1]>int(149/reso):
+        print("Try again: start_point is not inside the map")
+        break
+    while True:
+        if goal_point[0]<0 or goal_point[0]>int(249/reso) or goal_point[1]<0 or goal_point[1]>int(149/reso):
+            print("Try again")
+            break
+
+ 
+        elements=gr.elements(r,c,reso)
+        if tuple(goal_point) in elements==False:
+                print("goal_point is in obstacle space")
+        class AStarMap(object):
+            
+            def heuristic_algorithm(self, start_point, goal_point):
+        		#Use Manhattan distance heuristic_algorithm 
+        		
+                dx= abs(start_point[0] - goal_point[0])
+                dy= abs(start_point[1] - goal_point[1])
+                return dx + dy
+            
+            def get_neighbours(self, pos):
+                n= []
+        		
+                if pos in elements:
+                    for dx, dy in [(1,0),(-1,0),(0,1),(0,-1),(1,1),(-1,1),(1,-1),(-1,-1)]:
+                        x2= pos[0] + dx
+                        y2 = pos[1] + dy
+                        if (x2,y2) in elements:
+                            n.append((x2, y2))
+                return n
+        
+            def move_cost(self, a, b):
+                if(abs(a[0]-b[0])==1 and abs(a[1]-b[1])==1):
+                    return 2**0.5
+                elif (abs(a[0]-b[0])==0 or abs(a[0]-b[0])==1) and (abs(a[1]-b[1])==0 or abs(a[1]-b[1])==1):
+                    return 1
+         
+        def AStar(graph, start_point, goal_point):
+         
+        	G = {} #movement cost from the start_point position
+        	F = {} #Estimated movement cost of start_point to goal_point
+         
+        	#start_pointing values
+        	G[start_point] = 0 
+        	F[start_point] = graph.heuristic_algorithm(start_point, goal_point)
+         
+        	closedVertices = collections.OrderedDict()
+        	openVertices = set([start_point])
+        	cameFrom = {}
+         
+        	while len(openVertices) > 0:
+        		
+        		current = None
+        		currentFscore = None
+        		for pos in openVertices:
+        			if current is None or F[pos] < currentFscore:
+        				currentFscore = F[pos]
+        				current = pos
+         
+        		#See whether we reached the goal_point
+        		if current == goal_point:
+        			#Path backward
+        			path = [current]
+        			while current in cameFrom:
+        				current = cameFrom[current]
+        				path.append(current)
+        			path.reverse()
+        			return path, F[goal_point], closedVertices 
+         
+        		
+        		openVertices.remove(current)
+        		closedVertices.update({current:0})
+         
+        		
+        		for neighbour in graph.get_neighbours(current):
+        			if neighbour in closedVertices: 
+        				continue 
+        			candidateG = G[current] + graph.move_cost(current, neighbour)
+         
+        			if neighbour not in openVertices:
+        				openVertices.add(neighbour) 
+        			elif candidateG >= G[neighbour]:
+        				continue 
+         
+        			
+        			cameFrom[neighbour] = current
+        			G[neighbour] = candidateG
+        			H = graph.heuristic_algorithm(neighbour, goal_point)
+        			F[neighbour] = G[neighbour] + H
+                
+        	raise RuntimeError("A* failed to find a solution")
+        break
+    break
+if __name__=="__main__":
+    
+    graph = AStarMap()
+    final_result, cost, explored_nodes = AStar(graph, tuple(start_point), tuple(goal_point))
+    open('node_astar.txt', 'w').write('\n'.join('%s\t%s' % x for x in explored_nodes))
+    open('path_astar.txt', 'w').write('\n'.join('%s\t%s' % x for x in final_result))
+    print ("route", final_result)
+    print ("cost", cost)
+      
+    
+    
+    
+    
