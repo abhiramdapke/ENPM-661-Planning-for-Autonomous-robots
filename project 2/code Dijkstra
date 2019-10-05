@@ -1,0 +1,87 @@
+#author: Abhiram Dapke
+#Planning project 2
+
+import Obstacle_space
+import math
+import time
+import collections
+
+#Here r=radius, c=clearance, reso=resolution
+# Taking input from the user
+r=input("Please enter the radius: ")
+c=input("Please enter the clearance: ")
+reso=input("Please enter the reso: ")
+r=int(r)
+c=int(c)
+reso=float(reso)
+start_point=input("Enter start point point separated by Obstacle_space: ")
+start_point=start_point.split(' ')
+start_point = list(map(int, start_point))
+start_point[0]=int(start_point[0]/reso)
+start_point[1]=int(start_point[1]/reso)
+
+while True:
+    if start_point[0]<0 or start_point[0]>int(249/reso) or start_point[1]<0 or start_point[1]>int(149/reso):
+        print("Try again")
+        break
+    goal_point=input("Enter goal point point separated by Obstacle_space: ")
+    goal_point=goal_point.split(' ')
+    goal_point = list(map(int, goal_point))
+    goal_point[0]=int(goal_point[0]/reso)
+    goal_point[1]=int(goal_point[1]/reso)
+    while True:
+        if goal_point[0]<0 or goal_point[0]>int(249/reso) or goal_point[1]<0 or goal_point[1]>int(149/reso):
+            print("Try again")
+            break
+
+        start_point_time = time.time()
+
+        graph=Obstacle_space.Obstacle_map(r, c, reso)
+
+        if tuple(goal_point) in graph.keys()==False:
+                print("goal_point is in obstacle Obstacle_space")
+  # Here dijkstra algorithm is implemented         
+        def algorithm(graph,start_point,goal_point):
+            shortest_distance = {}
+            predecessor = {}
+            exploredNodes= collections.OrderedDict()
+            unseenNodes = graph
+            infinity = math.inf
+            path = []
+            for node in unseenNodes:
+                shortest_distance[node] = infinity
+            shortest_distance[start_point] = 0
+            while unseenNodes:
+                minNode = None
+                for node in unseenNodes:
+                    if minNode is None:
+                        minNode = node
+                    elif shortest_distance[node] < shortest_distance[minNode]:
+                        minNode = node
+         
+                for childNode, weight in graph[minNode].items():
+                    if weight + shortest_distance[minNode] < shortest_distance[childNode]:
+                        shortest_distance[childNode] = weight + shortest_distance[minNode]
+                        predecessor[childNode] = minNode
+                exploredNodes.update(unseenNodes.pop(minNode))
+         
+            currentNode = goal_point
+            while currentNode != start_point:
+                try:
+                    path.insert(0,currentNode)
+                    currentNode = predecessor[currentNode]
+                except KeyError:
+                    print('The Path is not reachable')
+                    break
+            path.insert(0,start_point)
+            if shortest_distance[goal_point] != infinity:
+                print('Here, the shortest distance is ' + str(shortest_distance[goal_point]))
+                #to print the path
+                open('path_dij.txt', 'w').write('\n'.join('%s\t%s' % x for x in path))
+                open('node_dij.txt', 'w').write('\n'.join('%s\t%s' % x for x in exploredNodes))
+         
+        algorithm(graph, tuple(start_point), tuple(goal_point))
+        end_time = time.time()
+        print("Total time: "+str(end_time-start_point_time))
+        break
+    break
