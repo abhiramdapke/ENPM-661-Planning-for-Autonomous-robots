@@ -1,4 +1,0 @@
-
-Implement Dijkstra and A* algorithm to find a path between start and end point on a given map for a point robot (radius = 0; clearance = 0).
-Consider workspace as a 8 connected space, that means now you can move the robot in up, down, left, right & diagonally between up-left,
-up-right, down-left and down-right directions.
