@@ -57,6 +57,10 @@ Then I implemented A star on this robot. The inputs to be taken form the user we
 
 ## How to execute
 
+## Output Video
+
+![Proj 3 output video](https://user-images.githubusercontent.com/47953521/88433357-e4dd8780-cdcb-11ea-8aba-ea51ddc06f59.gif)
+
 
 # Project 4
 
