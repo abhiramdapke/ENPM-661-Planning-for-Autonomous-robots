@@ -13,7 +13,7 @@ Problem statement is in the Project 1 folder
 
 In this project, the 8 puzzle problem was given and we had to use Brute force approach to find all the possible states from the given initial state. The states should be unique.     
 
-** Brute Force Search ** is a general problem solving technique which explores and checks each and every possible state with the goal state and runs until the goal is found. As it does not consider the cost to reach the goal state, it can have a very big time and space complexity. Once we find the goal state, the backward process will lead to the initial state.  
+**Brute Force Search** is a general problem solving technique which explores and checks each and every possible state with the goal state and runs until the goal is found. As it does not consider the cost to reach the goal state, it can have a very big time and space complexity. Once we find the goal state, the backward process will lead to the initial state.  
 
 ### How to execute the code    
 
@@ -35,10 +35,10 @@ Problem statement is in the Project 2 folder
 
 In this project, we were given a point robot and a rigid robot. A point robot has 0 radius and clearance and a rigid robot has some radius and clearance from the obstacle. The aim was to implement Dijkstra and Astar algorithm to find a path between the start and the goal node in a map. The robot can move in 8 directions overall. We represented the obstacles by using half planes and algebraic equations.  
 
-The algorithm was implemented by using ** C++, OOP and Data Structures. ** Let me tell you a bit about the the algorithms. So,** Dijkstra ** is a very popular path planning algorithm to find the shortest path between two vertices and it uses the principle of relaxation of vertices and uses a priority queue data structure to explore nodes. It picks the unvisited vertex with the lowest distance, calculates the distance through it to each unvisited neighbor and updates the neighbor’s distance, if smaller. This is done until the goal node is reached or the queue is empty. Dijkstra promises an optimal path if one exists.  
+The algorithm was implemented by using **C++, OOP and Data Structures.** Let me tell you a bit about the the algorithms. So,**Dijkstra** is a very popular path planning algorithm to find the shortest path between two vertices and it uses the principle of relaxation of vertices and uses a priority queue data structure to explore nodes. It picks the unvisited vertex with the lowest distance, calculates the distance through it to each unvisited neighbor and updates the neighbor’s distance, if smaller. This is done until the goal node is reached or the queue is empty. Dijkstra promises an optimal path if one exists.  
 Drawback – Doesn’t work for negative edges.  
 
-** A star ** is a heuristic search algorithm and is also known as Extended Dijkstra. It is very similar to Dijkstra, only it uses a heuristic function to reduce the number of nodes to be explored which is an advantage. The heuristic function can be calculated by using either Manhattan distance or Euclidean distance. Manhattan distance is the sum of horizontal and vertical distances between two points and Euclidean is the direct physical distance between two points. So, we used Euclidean distance to find the minimum distance to all the nodes from the goal node and then implemented A star on the point and rigid robot.  
+**A star** is a heuristic search algorithm and is also known as Extended Dijkstra. It is very similar to Dijkstra, only it uses a heuristic function to reduce the number of nodes to be explored which is an advantage. The heuristic function can be calculated by using either Manhattan distance or Euclidean distance. Manhattan distance is the sum of horizontal and vertical distances between two points and Euclidean is the direct physical distance between two points. So, we used Euclidean distance to find the minimum distance to all the nodes from the goal node and then implemented A star on the point and rigid robot.  
 
 The final outcome that we found the shorted path from start to the goal node by successful implementation of these two algorithms.  
 
@@ -108,12 +108,12 @@ Problem Statement is in the Project 5 folder
 
 ### Explanation  
 
-In this project, we simulated an artificial Amazon warehouse environment and planned the path for 8 AGVs that moved from the pickup station to the delivery station. This project was done in ** Python using Data structures. **
+In this project, we simulated an artificial Amazon warehouse environment and planned the path for 8 AGVs that moved from the pickup station to the delivery station. This project was done in **Python using Data structures.**
 So, to describe about the workspace, there were 8 horizontal and 8 vertical spaces in the whole workspace which were called shelves and there were 3 boxes in each shelf.  
 
-The challenges in this scenario were ** bottlenecks and collisions. ** To tackle this, prioritized planning approach was the best. This approach is used by the D star algorithm. We implemented D star Lite algorithm on the workspace for the AGVs to navigate from their pickup station to the delivery station.  
+The challenges in this scenario were **bottlenecks and collisions.** To tackle this, prioritized planning approach was the best. This approach is used by the D star algorithm. We implemented D star Lite algorithm on the workspace for the AGVs to navigate from their pickup station to the delivery station.  
 
-** D star lite ** is the extension of lifelong planning A* in which, the edge weights are modified as we traverse the graph. This can also be viewed as re-planning through relaxation of path costs. The re-computation is minimized in D star. An RHS cost is calculated from the goal node to all the nodes that are yet to be traversed and updated timely. Here, an RHS cost is the distance from the goal node to the node that is currently being taken into consideration.  
+**D star lite** is the extension of lifelong planning A* in which, the edge weights are modified as we traverse the graph. This can also be viewed as re-planning through relaxation of path costs. The re-computation is minimized in D star. An RHS cost is calculated from the goal node to all the nodes that are yet to be traversed and updated timely. Here, an RHS cost is the distance from the goal node to the node that is currently being taken into consideration.  
 
 The final outcome was that we were successful in finding the path between pickup and delivery stations for 8 autonomous ground vehicles without bottlenecks and collisions.  
 
