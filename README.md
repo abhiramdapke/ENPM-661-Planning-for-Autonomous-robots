@@ -1,13 +1,13 @@
 Path-Planning-for-Autonomous-robots
 This is a path planning course. It involves projects related to path planning of autonomous robots and all the projects are done in python.
 
-##Project 1
+## Project 1
 
 # 8 Puzzle Solver
 
-#Problem statement in the Project 1 folder
+# Problem statement in the Project 1 folder
 
-#How to execute the code
+# How to execute the code
 
 •	Libraries to import: math, numpy
 •	The code works in spyder (from Anaconda navigator)
