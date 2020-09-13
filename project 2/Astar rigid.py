@@ -46,7 +46,7 @@ while True:
         class AStarMap(object):
             
             def heuristic_algorithm(self, start_point, goal_point):
-        		#Use Manhattan distance heuristic_algorithm 
+        		#Use Euclidean distance heuristic_algorithm 
         		
                 dx= abs(start_point[0] - goal_point[0])
                 dy= abs(start_point[1] - goal_point[1])
